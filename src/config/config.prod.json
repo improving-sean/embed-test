@@ -1,0 +1,36 @@
+{
+  "lex": {
+    "initialText": "How can I help you? Answers are powered by Al. Review all output before using.",
+    "reInitSessionAttributesOnRestart": false,
+    "region": "us-east-1",
+    "retryOnLexPostTextTimeout": "false",
+    "retryCountPostTextTimeout": "1"
+  },
+  "ui": {
+    "parentOrigin": "http://localhost:8000",
+    "toolbarTitle": "Couchbase",
+    "toolbarLogo": "https://www.couchbase.com/wp-content/uploads/sites/3/2023/10/SDKs_Ottoman.svg",
+    "positiveFeedbackIntent": "Thumbs up",
+    "negativeFeedbackIntent": "Thumbs down",
+    "helpIntent": "Help",
+    "enableLogin": false,
+    "forceLogin": false,
+    "AllowSuperDangerousHTMLInMessage": true,
+    "shouldDisplayResponseCardTitle": false,
+    "saveHistory": false,
+    "minButtonContent": "",
+    "hideInputFieldsForButtonResponse": false,
+    "pushInitialTextOnRestart": false,
+    "directFocusToBotInput": false,
+    "showDialogStateIcon": false,
+    "backButton": false,
+    "messageMenu": true,
+    "hideButtonMessageBubble": false,
+    "enableLiveChat": false
+  },
+  "iframe": {
+    "iframeOrigin": "http://localhost:8080",
+    "shouldLoadIframeMinimized": true,
+    "iframeSrcPath": "/index.html#/?lexWebUiEmbed=true"
+  }
+}

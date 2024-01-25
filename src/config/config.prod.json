@@ -29,7 +29,7 @@
     "enableLiveChat": false
   },
   "iframe": {
-    "iframeOrigin": "http://localhost:8080",
+    "iframeOrigin": "https://main--sunny-cuchufli-4d28fb.netlify.app",
     "shouldLoadIframeMinimized": true,
     "iframeSrcPath": "/index.html#/?lexWebUiEmbed=true"
   }

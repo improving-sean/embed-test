@@ -59,7 +59,7 @@ const configDefault = {
     retryCountPostTextTimeout: "1",
   },
   ui: {
-    parentOrigin: "http://localhost:8000",
+    parentOrigin: "http://localhost:3000",
     toolbarTitle: "Couchbase",
     toolbarLogo:
       "https://www.couchbase.com/wp-content/uploads/sites/3/2023/10/SDKs_Ottoman.svg",

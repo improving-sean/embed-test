@@ -12,13 +12,12 @@
  */
 
 /* eslint no-console: ["error", { allow: ["warn", "error", "debug"] }] */
-/* global AWS */
 
 /**
  * Instantiates and mounts the chatbot component in an iframe
  *
  */
-export class IframeComponentLoader {
+class IframeComponentLoader {
   /**
    * @param {object} config - chatbot UI config
    * @param {string} elementId - element ID of a div containing the iframe
@@ -693,4 +692,4 @@ export class IframeComponentLoader {
   }
 }
 
-export default IframeComponentLoader;
+module.exports = IframeComponentLoader;

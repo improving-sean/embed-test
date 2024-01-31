@@ -170,6 +170,12 @@ export default {
         const message = {
           type: "feedback",
           text: feedback,
+          prompt:
+            this.$store.state.messages[this.$store.state.messages.length - 2]
+              .text,
+          response:
+            this.$store.state.messages[this.$store.state.messages.length - 1]
+              .text,
         };
         this.$emit("feedbackButton");
         this.$store.dispatch("postTextMessage", message);

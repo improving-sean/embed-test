@@ -19,9 +19,7 @@
  */
 
 // import from lib
-import { IframeComponentLoader } from "./lib/iframe-component-loader.js";
-
-import { options } from "./defaults/loader.js";
+const IframeComponentLoader = require("./iframe-component-loader.js");
 
 /**
  * Base class used by the full page and iframe loaders
@@ -56,7 +54,7 @@ class Loader {
 /**
  * Class used to to dynamically load the chatbot ui in an iframe
  */
-export class IframeLoader extends Loader {
+class IframeLoader extends Loader {
   /**
    * @param {object} options - options controlling how the dependencies and
    *   component config are loaded
@@ -105,7 +103,16 @@ export class IframeLoader extends Loader {
 /**
  * Default iframe specific loader options
  */
-export const optionsIframe = {
+const options = {
+  baseUrl: "/",
+  configEventTimeoutInMs: 10000,
+  configUrl: "./lex-web-ui-loader-config.json",
+  shouldIgnoreConfigWhenEmbedded: true,
+  shouldLoadConfigFromEvent: false,
+  shouldLoadConfigFromJsonFile: true,
+  shouldLoadMinDeps: false,
+};
+const optionsIframe = {
   ...options,
 
   // DOM element ID where the chatbot UI will be mounted
@@ -122,7 +129,7 @@ export const optionsIframe = {
   shouldLoadMinDeps: false,
 };
 
-export const configBase = {
+const configBase = {
   ui: { parentOrigin: "" },
   iframe: {
     iframeOrigin: "",
@@ -133,8 +140,8 @@ export const configBase = {
 /**
  * chatbot loader library entry point
  */
-export const ChatBotUiLoader = {
+const ChatBotUiLoader = {
   IframeLoader,
 };
 
-export default ChatBotUiLoader;
+module.exports = ChatBotUiLoader;

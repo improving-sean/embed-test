@@ -8,13 +8,15 @@ This is the Node.js server that makes it easy to debug the Chat Bot UI locally.
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [Inject Chatbot Anywhere](#inject-chatbot-anywhere)
-    - [Copy code](#copy-code)
-    - [CSS](#css)
-    - [JQuery](#jquery)
-    - [Loader Script](#loader-script)
-    - [Config](#config)
-    - [Other Configurations](#other-configurations)
+  - [Embedding the Chatbot](#embedding-the-chatbot)
+    - [Copy Files](#copy-files)
+    - [Import Statements](#import-statements)
+      - [CSS](#css)
+      - [JQuery](#jquery)
+      - [Loader Script](#loader-script)
+      - [Config](#config)
+        - [Other Configurations](#other-configurations)
+        - [Optional Scripts](#optional-scripts)
 
 ## Installation
 
@@ -32,7 +34,7 @@ the `/lex-web-ui-loader` dir holds all of our code to actually launch/run the ch
 
 The chatbot itself will be hosted elsewhere.
 
-## Inject Chatbot Anywhere
+## Embedding the Chatbot
 
 The Chatbot iteself is a simple vue application, that can be hosted anywhere.
 
@@ -41,23 +43,26 @@ Once that's complete grab the url for the chat application.
 
 **NOTE:** To have the bot remain open during the users full session import the following code onto the file that injects your web application. Usually `index.html` or a layout page.
 
-### Copy code
-Include the `/lex-web-ui-loader` directory into your application.
-Just make sure it's in a spot you can link to from your application.
+### Copy Files
+The following files from this directory will need to be included in your project.
 
-**NOTE**: Some links in the code below may need upated depending on where the loader is hosted.
+CSS     - ` ./test-host-website/public/lex-web-ui-loader/css/chatbot.css`
 
-### CSS 
+JS	 - `./test-host-website/public/lex-web-ui-loader/js/chatbot.min.js`
+
+### Import Statements
+
+#### CSS 
+
 Add to the head of the html.
-```
-<link
-  rel="stylesheet"
-  href="./lex-web-ui-loader/css/lex-web-ui-iframe.css"
-/>
+
+```html
+<link rel="stylesheet" href="<path_to>/chatbot.css" />
 ```
 
-### JQuery
-```
+#### JQuery
+
+```html
    <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -65,40 +70,47 @@ Add to the head of the html.
     ></script>
 ```
 
-### Loader Script
+#### Loader Script
+
+```html
+<script src="<path_to>/chatbot.min.js"></script>
+
+<script>
+  var iframeLoader = new ChatBotUiLoader.IframeLoader();
+
+  var chatbotUiconfig = { ... }
+
+  // load the iframe
+  iframeLoader
+    .load(chatbotUiconfig)
+    .then(function () {
+      iframeLoader.api.ping();
+      // perform actions on the parent dependent on the chatbot loading.
+      $("#send-intent").prop("disabled", false);
+    })
+    .catch(function (error) {
+      console.error("chatbot UI failed to load", error);
+    });
+</script>
 ```
-   <script type="module">
-      import ChatBotUiLoader from "../lex-web-ui-loader/js/index.js";
-      var iframeLoader = new ChatBotUiLoader.IframeLoader();
-
-      var chatbotUiconfig = { ... }
-
-      // load the iframe
-      iframeLoader
-        .load(chatbotUiconfig)
-        .then(function () {
-          iframeLoader.api.ping();
-          // perform actions on the parent dependent on the chatbot loading.
-          $("#send-intent").prop("disabled", false);
-        })
-        .catch(function (error) {
-          console.error("chatbot UI failed to load", error);
-        });
-    </script>
-```
 
 
-### Config 
-- Add this config to the script above @ `var chatbotUIconfig = {...}`
-- Replace the `ui.parentOrigin` of the config with the host site url.
-- Update the `iframe.iframeOrigin` of the config to the chatBot's url.
-```
+
+#### Config 
+
+1. Add this config to the script above @ `var chatbotUIconfig = {...}`
+
+2. Replace the `ui.parentOrigin` of the config with the host site url.
+   - Chatbot will not work from files directory, requires url, localhost @ any port number will do.
+   - **Note:** the `ui.parentOrigin` on the config that is hosted within the chatbot-ui-application needs to match.
+3. Update the `iframe.iframeOrigin` of the config to the chatBot's url.
+
+```json
 {
   ui: {
-    parentOrigin: "http://localhost:3000",
+    parentOrigin: "http://localhost:8000",
     toolbarTitle: "Couchbase",
-    toolbarLogo:
-      "https://www.couchbase.com/wp-content/uploads/sites/3/2023/10/SDKs_Ottoman.svg",
+    toolbarLogo: "https://www.couchbase.com/wp-content/uploads/sites/3/2023/10/SDKs_Ottoman.svg",
     positiveFeedbackIntent: "Thumbs up",
     negativeFeedbackIntent: "Thumbs down",
     helpIntent: "Help",
@@ -124,8 +136,43 @@ Add to the head of the html.
   },
 };
 ```
-### Other Configurations
-You will need to update the config files within the chat bot code: `config.prod.json` & `config.dev.json`. This is so it knows who to expect calls from.
+
+##### Other Configurations
+
+Mentioned above; You will need to update the config files within the chat bot's code: `config.prod.json` & `config.dev.json`. This is so it knows who to expect calls from. This cannot be dynamically updated from the iframe config for security reasons.
 
 - replace the `ui.parentOrigin` with the host site url.
 - update the `iframe.iframeOrigin` to the chatBot's url.
+
+#####  Optional Scripts
+
+You can import this script as well to start utlizing event updates to send or receive data to & from the chatbot UI. Current functionality does not require any of this. (this code can be found in the parent.html)
+
+```html
+    <script>
+      $(document).ready(function chatbotHandler() {
+        // When the chatbot ui iframe is ready to receive the
+        // dynamic config it sends the 'receivelexconfig' event to the parent
+        // For example, you can send dynamic config/parameters
+        // (e.g. username, geolocation) to the chatbot ui from here
+        $(document).one("receivelexconfig", function onReceiveLexConfig() {
+          var event = new CustomEvent("loadlexconfig", {
+            detail: { config: chatbotUiconfig },
+          });
+          document.dispatchEvent(event);
+        });
+
+        // Once the chatbot UI is ready, it sends a 'lexWebUiReady' event
+        $(document).on("lexWebUiReady", function onUpdateLexState(evt) {
+          // empty
+        });
+
+        // bot update event handler
+        // parent page can be updated when lex state changes
+        $(document).on("updatelexstate", function onUpdateLexState(evt) {
+          // empty
+        });
+      });
+    </script>
+```
+

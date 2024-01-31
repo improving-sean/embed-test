@@ -18,6 +18,8 @@ export default class {
         `${Math.floor((1 + Math.random()) * 0x10000)
           .toString(16)
           .substring(1)}`;
+
+    this.apiUri = "https://lxb0fe009i.execute-api.us-east-1.amazonaws.com/";
   }
 
   initCredentials(credentials) {
@@ -30,8 +32,7 @@ export default class {
     console.log(
       `lex-client: deleting session for user ${this.userId} and bot ${this.botName}`
     );
-    const apiUrl =
-      "https://4rexnbrwa3.execute-api.us-east-1.amazonaws.com/couchbase-chatbot/session";
+    const apiUrl = this.apiUri + "/session";
     const requestBody = {
       sessionId: this.userId,
     };
@@ -60,8 +61,7 @@ export default class {
     console.log(
       `lex-client: starting new session for user ${this.userId} and bot ${this.botName}`
     );
-    const apiUrl =
-      "https://4rexnbrwa3.execute-api.us-east-1.amazonaws.com/couchbase-chatbot/session";
+    const apiUrl = this.apiUri + "/session";
     const requestBody = { sessionId: this.userId };
 
     // Headers and request options
@@ -89,8 +89,7 @@ export default class {
   }
 
   postText(text) {
-    const apiUrl =
-      "https://4rexnbrwa3.execute-api.us-east-1.amazonaws.com/couchbase-chatbot/text";
+    const apiUrl = this.apiUri + "/text";
     const requestBody = { sessionId: this.userId, text: text };
 
     // Headers and request options
@@ -102,7 +101,6 @@ export default class {
       body: JSON.stringify(requestBody),
     };
 
-    // return async () => {
     return fetch(apiUrl, requestOptions).then((res) => {
       if (res.sessionState) {
         // this is v2 response
@@ -163,6 +161,25 @@ export default class {
       }
       return res.json();
     });
-    // };
   }
+
+  // We may want to break out the feedback code into a separate API call
+  // This is here as a starting point for that to happen.
+  // postFeedback(feedback = "") {
+  //   const apiUrl = this.apiUri + "/feedback";
+  //   const requestBody = { sessionId: this.userId, feedback: feedback };
+
+  //   // Headers and request options
+  //   const requestOptions = {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(requestBody),
+  //   };
+
+  //   return fetch(apiUrl, requestOptions).then((res) => {
+  //     return res.json();
+  //   });
+  // }
 }

@@ -5,108 +5,53 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Chatbot UI iFrame Example</title>
 
-    <link
-      rel="stylesheet"
-      href="./lex-web-ui-loader/css/lex-web-ui-iframe.css"
-    />
+    <link rel="stylesheet" href="./lex-web-ui-loader/css/chatbot.css" />
+    <link rel="stylesheet" href="./parent.css" />
   </head>
   <body>
-    <div class="container-fluid">
-      <h1>Lex Chatbot UI Sample Parent Page</h1>
-      <p class="lead">
-        Use the chatbot UI to drive your bot. This page will dynamically update
-        using the associated Lex variables as the bot dialog progresses.
-      </p>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              Send "Buy Flowers" utterance to iframe
-            </div>
-            <div class="panel-body">
-              <div>
-                <button
-                  id="send-intent"
-                  type="button"
-                  class="btn btn-default"
-                  disabled="disabled"
-                >
-                  Send
-                </button>
-              </div>
-            </div>
-          </div>
+    <!-- START Filler html -->
+    <header><h1>Sample Lorem Ipsum Page</h1></header>
+
+    <div class="content">
+      <div class="column">
+        <div class="post">
+          <h2>Post One</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+            hendrerit, nisl in volutpat egestas, dui mi viverra elit, in
+            pharetra massa metus sed justo.
+          </p>
+        </div>
+        <div class="post">
+          <h2>Post Two</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec orci
+            eget nisl sodales fermentum.
+          </p>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="panel panel-primary">
-            <div class="panel-heading">Lex Dialog State</div>
-            <div class="panel-body">
-              <div>
-                <strong>dialogState:</strong> <span id="dialog-state"></span>
-              </div>
-            </div>
-          </div>
+      <div class="column">
+        <div class="post">
+          <h2>Post Three</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+            cursus faucibus dolor, non aliquet nulla sagittis at.
+          </p>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="panel panel-primary">
-            <div class="panel-heading">Lex Slots</div>
-            <div class="panel-body"><div id="slots"></div></div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="panel panel-primary">
-            <div class="panel-heading">Lex Intent Name</div>
-            <div class="panel-body">
-              <div>
-                <strong>Intent Name:</strong> <span id="intent-name"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="panel panel-primary">
-            <div class="panel-heading">Lex Session Attributes</div>
-            <div class="panel-body">
-              <div><pre id="session-attributes"></pre></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="panel panel-primary">
-            <div class="panel-heading">Lex Response Card</div>
-            <div class="panel-body">
-              <div><pre id="response-card"></pre></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="panel panel-warning">
-            <div class="panel-heading">NOTE</div>
-            <div class="panel-body">
-              <p>
-                This application was created using the
-                <a href="https://github.com/awslabs/aws-lex-web-ui"
-                  >aws-lex-web-ui</a
-                >
-                project.
-              </p>
-            </div>
-          </div>
+        <div class="post">
+          <h2>Post Four</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+            malesuada augue eget malesuada scelerisque.
+          </p>
         </div>
       </div>
     </div>
+
+    <footer class="footer">
+      <p>Footer Content</p>
+    </footer>
+    <!-- END Filler HTML  -->
 
     <!-- Load jquery -->
     <script
@@ -115,14 +60,16 @@
       crossorigin="anonymous"
     ></script>
 
-    <script type="module">
-      import ChatBotUiLoader from "../lex-web-ui-loader/js/index.js";
+    <!-- Loader Import & Setup -->
+    <!-- chatbot.js is created during `npm run pack` packing the chatbot code to one file. -->
+    <script src="./lex-web-ui-loader/js/chatbot.min.js"></script>
+    <script>
       var iframeLoader = new ChatBotUiLoader.IframeLoader();
 
       // You can override the chatbot UI config by passing a parameter
       var chatbotUiconfig = {
         ui: {
-          parentOrigin: "http://localhost:3000",
+          parentOrigin: "http://localhost:8000",
           toolbarTitle: "Couchbase",
           toolbarLogo:
             "https://www.couchbase.com/wp-content/uploads/sites/3/2023/10/SDKs_Ottoman.svg",
@@ -145,7 +92,7 @@
           enableLiveChat: false,
         },
         iframe: {
-          iframeOrigin: "http://localhost:8080",
+          iframeOrigin: "https://sunny-cuchufli-4d28fb.netlify.app/#/",
           shouldLoadIframeMinimized: true,
           iframeSrcPath: "/#/?lexWebUiEmbed=true",
         },

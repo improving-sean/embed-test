@@ -7,7 +7,7 @@
     "retryCountPostTextTimeout": "1"
   },
   "ui": {
-    "parentOrigin": "https://preview.docs-test.couchbase.com/",
+    "parentOrigin": "http://localhost:8000",
     "toolbarTitle": "Couchbase",
     "toolbarLogo": "https://www.couchbase.com/wp-content/uploads/sites/3/2023/10/SDKs_Ottoman.svg",
     "positiveFeedbackIntent": "Thumbs up",

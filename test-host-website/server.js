@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 
 const app = express();
-const port = 3000; // You can use any port number
+const port = 8000; // You can use any port number
 
 // Serve static files from the 'public' folder
 app.use(express.static("public"));

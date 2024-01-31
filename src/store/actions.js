@@ -78,6 +78,19 @@ export default {
     return Promise.resolve(context.commit("setLexSessionAttributeValue", data));
   },
 
+  // We may want to break out the feedback code into a separate API call
+  // This is here as a starting point for that to happen.
+  // postFeedback(context, feedback = "") {
+  //   return lexClient
+  //     .postFeedback(feedback)
+  //     .then((data) => {
+  //       return Promise.resolve(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // },
+
   postTextMessage(context, message) {
     if (context.state.isSFXOn && !context.state.lex.isPostTextRetry) {
       context.dispatch("playSound", context.state.config.ui.messageSentSFX);

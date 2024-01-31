@@ -104,7 +104,7 @@ export default {
       })
       .then(() => {
         // post text to lex-bot
-        return context.dispatch("lexPostText", message.text);
+        return context.dispatch("lexPostText", message);
       })
       .then((response) => {
         // return response;
@@ -262,7 +262,7 @@ export default {
       });
   },
 
-  async lexPostText(context, text) {
+  async lexPostText(context, message) {
     context.commit("setIsLexProcessing", true);
     const session = context.state.lex.sessionAttributes;
     delete session.appContext;
@@ -290,7 +290,7 @@ export default {
       }
 
       // Get Lex response
-      const data = await lexClient.postText(text);
+      const data = await lexClient.postText(message);
 
       // Handle typing in chat bubbles
       context.commit("setIsStartingTypingWsMessages", false);

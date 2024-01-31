@@ -88,9 +88,16 @@ export default class {
     });
   }
 
-  postText(text) {
+  postText(message) {
     const apiUrl = this.apiUri + "/text";
-    const requestBody = { sessionId: this.userId, text: text };
+    const requestBody = { sessionId: this.userId, text: message.text };
+
+    // feedback responses require more data so we can properly track the feedback
+    if (message.type === "feedback") {
+      requestBody.type = message.type;
+      requestBody.prompt = message.prompt ?? "err - prompt not found";
+      requestBody.response = message.response ?? "err - response not found";
+    }
 
     // Headers and request options
     const requestOptions = {
